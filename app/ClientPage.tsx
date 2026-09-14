@@ -96,7 +96,8 @@ export default function Home() {
   const [globalLogs, setGlobalLogs] = useState<MaskLog[]>([]);
   const [error, setError] = useState<string | null>(null);
   
-  // Filter States
+  // Theme & Filter States
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [logFilter, setLogFilter] = useState('');
   
   // Manual Replacements State
@@ -130,7 +131,8 @@ export default function Home() {
       }
 
       // 2. Fetch fresh bundled static not_mask_urls.txt directly (cache-busted)
-      const res = await fetch(`/not_mask_urls.txt?t=${Date.now()}`);
+      const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+      const res = await fetch(`${basePath}/not_mask_urls.txt?t=${Date.now()}`);
       if (res.ok) {
         const text = await res.text();
         const parsed = text
@@ -177,7 +179,14 @@ export default function Home() {
     });
   }, []);
 
-
+  // Sync dark mode class
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
 
   // AUTO-SAVE NOT MASK URL
   const saveNotMaskContent = (text: string, parsed: string[]) => {

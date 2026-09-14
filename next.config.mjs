@@ -15,6 +15,9 @@ if (process.env.GITHUB_ACTIONS) {
 const nextConfig = {
   reactStrictMode: true,
   basePath: basePath,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },
