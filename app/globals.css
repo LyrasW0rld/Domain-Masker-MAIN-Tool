@@ -1,1 +1,48 @@
 @import "tailwindcss";
+
+@theme {
+  --color-natgeo: #FFD51C;
+  --color-natgeo-dark: #E6B800;
+  --font-serif: "Georgia", "Merriweather", "ITC Stone Serif", serif;
+  --font-sans: "Inter", "Helvetica Neue", "Arial", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-black text-stone-200 antialiased font-sans;
+  }
+}
+
+@layer components {
+  .natgeo-card {
+    @apply bg-[#121212] border border-[#2a2a2a] rounded-xl overflow-hidden transition-all duration-300;
+  }
+  
+  .natgeo-card-hover {
+    @apply hover:bg-[#1a1a1a] hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/50 border-l-4 border-l-transparent hover:border-l-natgeo;
+  }
+
+  .natgeo-button {
+    @apply bg-natgeo text-black font-bold tracking-wide uppercase text-xs px-4 py-3 rounded-lg hover:bg-natgeo-dark transition-all shadow-lg active:scale-95 flex items-center justify-center gap-2;
+  }
+  
+  .natgeo-button-secondary {
+    @apply bg-[#1a1a1a] text-stone-300 border border-[#333] font-bold tracking-wide uppercase text-xs px-4 py-3 rounded-lg hover:bg-[#222] hover:text-white hover:border-[#444] transition-all shadow-md active:scale-95 flex items-center justify-center gap-2;
+  }
+
+  .natgeo-input {
+    @apply w-full bg-[#0a0a0a] border border-[#333] rounded-lg px-4 py-3 text-stone-200 focus:outline-none focus:border-natgeo focus:ring-1 focus:ring-natgeo transition-colors;
+  }
+  
+  .natgeo-textarea {
+    @apply w-full bg-[#0a0a0a] border border-[#333] rounded-lg p-4 text-stone-200 font-serif leading-relaxed focus:outline-none focus:border-natgeo focus:ring-1 focus:ring-natgeo transition-colors resize-y;
+  }
+  
+  .natgeo-kicker {
+    @apply text-natgeo text-[10px] uppercase font-bold tracking-[0.2em] mb-1 block;
+  }
+  
+  .natgeo-title {
+    @apply text-white text-lg font-bold tracking-wide;
+  }
+}

@@ -96,8 +96,7 @@ export default function Home() {
   const [globalLogs, setGlobalLogs] = useState<MaskLog[]>([]);
   const [error, setError] = useState<string | null>(null);
   
-  // Theme & Filter States
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  // Filter States
   const [logFilter, setLogFilter] = useState('');
   
   // Manual Replacements State
@@ -178,14 +177,7 @@ export default function Home() {
     });
   }, []);
 
-  // Sync dark mode class
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
+
 
   // AUTO-SAVE NOT MASK URL
   const saveNotMaskContent = (text: string, parsed: string[]) => {
@@ -630,22 +622,22 @@ export default function Home() {
   });
 
   return (
-    <div className={cn("min-h-screen flex flex-col font-sans transition-colors duration-200", isDarkMode ? "bg-stone-950 text-stone-100" : "bg-stone-50 text-stone-900")}>
+    <div className="min-h-screen flex flex-col w-full text-stone-200">
       
       {/* Window Title Bar */}
       <div 
-        className="flex items-center justify-between h-8 bg-stone-900 text-stone-300 w-full fixed top-0 left-0 z-50 select-none shadow-sm border-b border-stone-800"
+        className="flex items-center justify-between h-10 bg-[#0a0a0a] border-b border-[#222] w-full fixed top-0 left-0 z-50 select-none shadow-md"
         style={{ WebkitAppRegion: 'drag' } as React.CSSProperties}
       >
-        <div className="flex items-center gap-2 pl-4 text-xs font-semibold tracking-wider">
-          <Archive className="w-3.5 h-3.5 text-indigo-400" />
-          <span>DOMAIN MASKER</span>
-          <span className="text-[10px] px-1.5 py-0.5 rounded bg-stone-800 text-stone-400 font-normal">v1.2</span>
+        <div className="flex items-center gap-2 pl-5">
+          <Archive className="w-4 h-4 text-natgeo" />
+          <span className="text-xs font-bold tracking-[0.2em] uppercase text-white">DOMAIN MASKER</span>
+          <span className="text-[10px] px-2 py-0.5 rounded bg-[#1a1a1a] text-stone-400 font-normal border border-[#333]">v1.2</span>
         </div>
         <div className="flex items-center" style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}>
           <button 
             onClick={() => window.close()} 
-            className="h-8 px-4 hover:bg-red-600 hover:text-white transition-colors flex items-center justify-center"
+            className="h-10 px-5 hover:bg-red-600 hover:text-white transition-colors flex items-center justify-center text-stone-400"
             title="Close"
           >
             <X className="w-4 h-4" />
@@ -654,22 +646,23 @@ export default function Home() {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 p-3 sm:p-5 pt-11 pb-28 max-w-[1720px] mx-auto w-full flex flex-col gap-4">
+      <div className="flex-1 p-4 sm:p-6 lg:p-8 pt-16 pb-32 w-full mx-auto flex flex-col gap-6">
         
         {/* ======================================================== */}
         {/* TOP BAR: Controls & Settings                             */}
         {/* ======================================================== */}
-        <header className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl shadow-sm p-4 sm:p-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 items-end">
+        <header className="natgeo-card natgeo-card-hover p-5 sm:p-6 lg:p-8">
+          <span className="natgeo-kicker">Configuration</span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-end">
             
             {/* 1. Identifier * */}
-            <div className="lg:col-span-3 space-y-1.5">
+            <div className="lg:col-span-3 space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider flex items-center gap-1">
+                <label className="text-xs font-bold text-stone-300 uppercase tracking-wider flex items-center gap-1">
                   <span>Identifier</span>
-                  <span className="text-red-500">*</span>
+                  <span className="text-natgeo">*</span>
                   {store.hasSession(identifier.trim().toUpperCase()) && (
-                    <span className="text-[10px] px-1.5 py-0.2 bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 rounded font-normal">
+                    <span className="text-[10px] px-1.5 py-0.2 bg-emerald-900/60 text-emerald-400 border border-emerald-800/50 rounded font-normal">
                       Saved
                     </span>
                   )}
@@ -677,7 +670,7 @@ export default function Home() {
                 <button 
                   onClick={generateIdentifier} 
                   type="button"
-                  className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center gap-1 transition-colors"
+                  className="text-xs font-bold text-natgeo hover:text-natgeo-dark flex items-center gap-1 transition-colors"
                   title="Generate Random Identifier"
                 >
                   <Wand2 className="w-3.5 h-3.5" /> Gen
@@ -688,18 +681,18 @@ export default function Home() {
                 placeholder="e.g. M2 or PROD" 
                 value={identifier}
                 onChange={e => setIdentifier(e.target.value.toUpperCase())}
-                className="w-full bg-stone-50 dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-xl px-3.5 py-2.5 text-sm font-mono uppercase focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-stone-900 dark:text-white placeholder-stone-400"
+                className="natgeo-input uppercase font-mono"
               />
             </div>
 
             {/* 2. Target Mask * */}
-            <div className="lg:col-span-3 space-y-1.5">
+            <div className="lg:col-span-3 space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider flex items-center gap-1">
+                <label className="text-xs font-bold text-stone-300 uppercase tracking-wider flex items-center gap-1">
                   <span>Target Mask</span>
-                  <span className="text-red-500">*</span>
+                  <span className="text-natgeo">*</span>
                 </label>
-                <span className="text-[10px] text-stone-500 dark:text-stone-400 font-mono">
+                <span className="text-[10px] text-stone-500 font-mono">
                   local*.com or local.com
                 </span>
               </div>
@@ -709,202 +702,193 @@ export default function Home() {
                 value={targetPattern}
                 disabled={isReverse}
                 onChange={e => setTargetPattern(e.target.value.toLowerCase())}
-                className="w-full bg-stone-50 dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-xl px-3.5 py-2.5 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-stone-900 dark:text-white placeholder-stone-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="natgeo-input font-mono disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-[#111]"
               />
             </div>
 
             {/* 3. Mode Toggle */}
-            <div className="lg:col-span-3 space-y-1.5">
-              <label className="text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider">
+            <div className="lg:col-span-3 space-y-2">
+              <label className="text-xs font-bold text-stone-300 uppercase tracking-wider">
                 Mode
               </label>
-              <div className="grid grid-cols-2 gap-1.5 bg-stone-100 dark:bg-stone-950 p-1 rounded-xl border border-stone-200 dark:border-stone-800">
+              <div className="grid grid-cols-2 gap-2 bg-[#0a0a0a] p-1.5 rounded-lg border border-[#333]">
                 <button
                   type="button"
                   onClick={() => setIsReverse(false)}
                   className={cn(
-                    "flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-bold transition-all",
+                    "flex items-center justify-center gap-2 py-2.5 rounded-md text-xs font-bold transition-all",
                     !isReverse 
-                      ? "bg-white dark:bg-stone-800 text-indigo-600 dark:text-indigo-400 shadow-sm border border-stone-200 dark:border-stone-700" 
-                      : "text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200"
+                      ? "bg-[#1a1a1a] text-natgeo shadow-md border border-[#444]" 
+                      : "text-stone-500 hover:text-stone-200"
                   )}
                 >
-                  <RefreshCw className="w-3.5 h-3.5" />
+                  <RefreshCw className="w-4 h-4" />
                   Masking
                 </button>
                 <button
                   type="button"
                   onClick={() => setIsReverse(true)}
                   className={cn(
-                    "flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-bold transition-all",
+                    "flex items-center justify-center gap-2 py-2.5 rounded-md text-xs font-bold transition-all",
                     isReverse 
-                      ? "bg-amber-500 text-white shadow-sm" 
-                      : "text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200"
+                      ? "bg-stone-200 text-black shadow-md border border-stone-300" 
+                      : "text-stone-500 hover:text-stone-200"
                   )}
                 >
-                  <RotateCcw className="w-3.5 h-3.5" />
+                  <RotateCcw className="w-4 h-4" />
                   Reverse
                 </button>
               </div>
             </div>
 
             {/* 4. Action Buttons */}
-            <div className="lg:col-span-3 flex items-center gap-2">
+            <div className="lg:col-span-3 flex items-center gap-3">
               <button 
                 onClick={downloadMapping}
                 disabled={!identifier}
-                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-200 rounded-xl text-xs font-semibold hover:bg-stone-200 dark:hover:bg-stone-700 disabled:opacity-40 transition-colors"
+                className="flex-1 natgeo-button-secondary py-3.5 disabled:opacity-40"
                 title="Export current session mappings as JSON"
               >
-                <DownloadCloud className="w-4 h-4 text-stone-500 dark:text-stone-400" />
-                Export
+                <DownloadCloud className="w-4 h-4" /> Export
               </button>
 
               <button 
                 onClick={() => importInputRef.current?.click()}
-                className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-200 rounded-xl text-xs font-semibold hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors"
+                className="flex-1 natgeo-button-secondary py-3.5"
                 title="Import existing session mappings JSON"
               >
-                <UploadCloud className="w-4 h-4 text-stone-500 dark:text-stone-400" />
-                Import
+                <UploadCloud className="w-4 h-4" /> Import
               </button>
               <input type="file" accept=".json" ref={importInputRef} onChange={handleImportMapping} className="hidden" />
 
               <button 
                 onClick={clearIdentifierReplacements}
                 disabled={!identifier}
-                className="p-2.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/60 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-400 rounded-xl transition-colors disabled:opacity-40"
+                className="p-3.5 bg-red-950/40 hover:bg-red-900/60 border border-red-900/60 text-red-500 rounded-lg transition-colors disabled:opacity-40"
                 title="Clear Identifier Mappings"
               >
                 <Eraser className="w-4 h-4" />
-              </button>
-
-              <button 
-                onClick={() => setIsDarkMode(!isDarkMode)} 
-                className="p-2.5 rounded-xl bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700 transition-colors"
-                title="Toggle Theme"
-              >
-                {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-600" />}
               </button>
             </div>
 
           </div>
 
           {error && (
-            <div className="mt-3 bg-red-50 dark:bg-red-950/40 text-red-700 dark:text-red-300 p-3 rounded-xl flex items-center justify-between border border-red-200 dark:border-red-900/60 text-xs">
-              <div className="flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 flex-shrink-0" />
+            <div className="mt-4 bg-red-950/60 text-red-400 p-4 rounded-lg flex items-center justify-between border border-red-900/60 text-sm font-medium">
+              <div className="flex items-center gap-3">
+                <AlertCircle className="w-5 h-5 flex-shrink-0" />
                 <span>{error}</span>
               </div>
-              <button onClick={() => setError(null)} className="p-1 hover:bg-red-100 dark:hover:bg-red-900/50 rounded">
-                <X className="w-3.5 h-3.5" />
+              <button onClick={() => setError(null)} className="p-1.5 hover:bg-red-900/50 rounded-md">
+                <X className="w-4 h-4" />
               </button>
             </div>
           )}
         </header>
 
         {/* ======================================================== */}
-        {/* MAIN BODY: Left Vertical Sidebar + Right 2x2 Grid        */}
+        {/* MAIN BODY: Grid Layout for maximum width utilization     */}
         {/* ======================================================== */}
-        <div className="flex flex-col lg:flex-row gap-4 items-start flex-1">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start w-full">
           
           {/* ====================================================== */}
-          {/* LEFT VERTICAL SIDEBAR: Manual Replacements & NOT MASK  */}
+          {/* LEFT SIDEBAR (Span 3 or 4)                             */}
           {/* ====================================================== */}
-          <aside className="w-full lg:w-[380px] flex-shrink-0 flex flex-col gap-4">
+          <aside className="lg:col-span-4 xl:col-span-3 flex flex-col gap-6">
             
             {/* 1. Manual Replacements Card */}
-            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-4 shadow-sm space-y-3">
-              <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-2.5">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-                    <Edit3 className="w-4 h-4" />
+            <div className="natgeo-card natgeo-card-hover p-5 space-y-4">
+              <div className="flex items-center justify-between border-b border-[#222] pb-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-[#1a1a1a] text-natgeo">
+                    <Edit3 className="w-5 h-5" />
                   </div>
-                  <h2 className="text-sm font-bold text-stone-900 dark:text-white">
-                    Manual Replacements
-                  </h2>
+                  <div>
+                    <span className="natgeo-kicker">Overrides</span>
+                    <h2 className="natgeo-title text-base">Manual Mappings</h2>
+                  </div>
                 </div>
                 {activeMappingsList.length > 0 && (
-                  <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-900/50 dark:text-indigo-300">
-                    {activeMappingsList.length} active
+                  <span className="text-[11px] font-bold px-2.5 py-1 rounded-md bg-[#1a1a1a] text-natgeo border border-[#333]">
+                    {activeMappingsList.length} Active
                   </span>
                 )}
               </div>
 
-              <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
-                Manually map a specific domain to a custom target, overriding automatic mask patterns.
+              <p className="text-xs text-stone-400 leading-relaxed font-sans">
+                Manually map a specific domain to a custom target.
               </p>
 
               {/* Input Form */}
-              <div className="space-y-2 pt-1">
-                <div className="grid grid-cols-1 gap-2">
+              <div className="space-y-3 pt-2">
+                <div className="grid grid-cols-1 gap-3">
                   <input 
                     type="text" 
                     placeholder="Original (e.g. youtube.com)" 
                     value={manualOriginal}
                     onChange={e => setManualOriginal(e.target.value.toLowerCase())}
-                    className="w-full bg-stone-50 dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-stone-900 dark:text-white placeholder-stone-400"
+                    className="natgeo-input py-2.5 text-xs font-mono"
                   />
                   <input 
                     type="text" 
                     placeholder="Custom Target (e.g. local1.com)" 
                     value={manualTarget}
                     onChange={e => setManualTarget(e.target.value.toLowerCase())}
-                    className="w-full bg-stone-50 dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 text-stone-900 dark:text-white placeholder-stone-400"
+                    className="natgeo-input py-2.5 text-xs font-mono"
                   />
                 </div>
 
                 <button 
                   onClick={handleAddManualMapping}
                   disabled={!manualOriginal || !manualTarget}
-                  className="w-full flex items-center justify-center gap-1.5 bg-stone-900 hover:bg-stone-800 text-white dark:bg-indigo-600 dark:hover:bg-indigo-500 px-4 py-2 rounded-xl text-xs font-bold transition-colors disabled:opacity-50 shadow-sm"
+                  className="w-full natgeo-button py-2.5 disabled:opacity-50 disabled:grayscale"
                 >
-                  <Plus className="w-3.5 h-3.5" /> Add Mapping
+                  <Plus className="w-4 h-4" /> Add Mapping
                 </button>
               </div>
 
               {manualSuccess && (
-                <p className="text-xs font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 p-2 rounded-lg">
+                <p className="text-xs font-bold text-emerald-400 bg-emerald-950/40 border border-emerald-900/50 p-2.5 rounded-lg">
                   {manualSuccess}
                 </p>
               )}
               {manualError && (
-                <p className="text-xs font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/40 p-2 rounded-lg">
+                <p className="text-xs font-bold text-red-400 bg-red-950/40 border border-red-900/50 p-2.5 rounded-lg">
                   {manualError}
                 </p>
               )}
 
-              {/* Active Mappings List for current Identifier */}
-              <div className="space-y-1.5 pt-1">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">
-                  Current Identifier Overrides
+              {/* Active Mappings List */}
+              <div className="space-y-2 pt-2 border-t border-[#222]">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-stone-500">
+                  Current Overrides
                 </span>
                 
                 {activeMappingsList.length === 0 ? (
-                  <div className="p-3 rounded-xl bg-stone-50 dark:bg-stone-950/50 border border-dashed border-stone-200 dark:border-stone-800 text-center">
-                    <p className="text-xs text-stone-400 dark:text-stone-500">
-                      {identifier ? 'No manual mappings set for this ID.' : 'Enter an Identifier above to manage overrides.'}
+                  <div className="p-4 rounded-lg bg-[#0a0a0a] border border-[#222] border-dashed text-center">
+                    <p className="text-xs text-stone-500">
+                      {identifier ? 'No manual mappings set.' : 'Enter an Identifier first.'}
                     </p>
                   </div>
                 ) : (
-                  <div className="max-h-40 overflow-y-auto space-y-1.5 pr-1">
+                  <div className="max-h-48 overflow-y-auto space-y-2 pr-1 custom-scrollbar">
                     {activeMappingsList.map((item) => (
                       <div 
                         key={item.original}
-                        className="flex items-center justify-between p-2 rounded-lg bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 text-xs font-mono"
+                        className="flex items-center justify-between p-2.5 rounded-lg bg-[#111] border border-[#222] text-xs font-mono"
                       >
-                        <div className="flex items-center gap-1.5 truncate max-w-[280px]">
-                          <span className="text-stone-700 dark:text-stone-300 truncate" title={item.original}>
+                        <div className="flex items-center gap-2 truncate pr-2">
+                          <span className="text-stone-300 truncate" title={item.original}>
                             {item.original}
                           </span>
-                          <ArrowRight className="w-3 h-3 text-stone-400 flex-shrink-0" />
-                          <span className="text-indigo-600 dark:text-indigo-400 font-semibold truncate" title={item.target}>
+                          <ArrowRight className="w-3.5 h-3.5 text-stone-500 flex-shrink-0" />
+                          <span className="text-natgeo font-bold truncate" title={item.target}>
                             {item.target}
                           </span>
                         </div>
                         <button
                           onClick={() => handleRemoveManualMapping(item.original)}
-                          className="text-stone-400 hover:text-red-500 dark:hover:text-red-400 p-1 rounded transition-colors"
+                          className="text-stone-500 hover:text-red-500 p-1.5 rounded transition-colors bg-[#1a1a1a] hover:bg-[#222]"
                           title="Delete Mapping"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -917,63 +901,62 @@ export default function Home() {
             </div>
 
             {/* 2. NOT MASK URL (Whitelist) Card */}
-            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-4 shadow-sm space-y-3">
-              <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-2.5">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
-                    <ShieldCheck className="w-4 h-4" />
+            <div className="natgeo-card natgeo-card-hover p-5 space-y-4 flex-1 flex flex-col">
+              <div className="flex items-center justify-between border-b border-[#222] pb-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-[#1a1a1a] text-emerald-400">
+                    <ShieldCheck className="w-5 h-5" />
                   </div>
                   <div>
-                    <h2 className="text-sm font-bold text-stone-900 dark:text-white">
-                      NOT MASK URL
-                    </h2>
+                    <span className="natgeo-kicker">Whitelist</span>
+                    <h2 className="natgeo-title text-base">NOT MASK URL</h2>
                   </div>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300">
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-bold px-2.5 py-1 rounded-md bg-[#1a1a1a] text-emerald-400 border border-[#333]">
                     {notMaskRules.length} rules
                   </span>
                   <button
                     type="button"
                     onClick={() => reloadNotMaskFromDisk(false)}
-                    title="Reload rules directly from not_mask_urls.txt"
-                    className="p-1 hover:bg-emerald-50 dark:hover:bg-emerald-950/50 rounded-lg text-emerald-600 dark:text-emerald-400 transition-colors"
+                    title="Reload from disk"
+                    className="p-1.5 hover:bg-[#1a1a1a] rounded-md text-emerald-500 transition-colors border border-transparent hover:border-[#333]"
                   >
-                    <RefreshCw className="w-3.5 h-3.5" />
+                    <RefreshCw className="w-4 h-4" />
                   </button>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between text-[11px] text-stone-500 dark:text-stone-400">
-                <span className="font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                  <Check className="w-3 h-3" /> Auto-saved (not_mask_urls.txt)
+              <div className="flex items-center justify-between text-[11px] text-stone-400">
+                <span className="font-mono text-emerald-500 flex items-center gap-1.5 font-bold">
+                  <Check className="w-3.5 h-3.5" /> Auto-saved (not_mask_urls.txt)
                 </span>
                 {notMaskStatus && (
-                  <span className="font-medium text-stone-700 dark:text-stone-300 animate-fade-in">
+                  <span className="font-bold text-natgeo animate-fade-in">
                     {notMaskStatus}
                   </span>
                 )}
               </div>
 
-              <p className="text-xs text-stone-500 dark:text-stone-400 leading-relaxed">
-                URLs/domains listed here remain completely untouched. 1 per line (or comma-separated).
+              <p className="text-xs text-stone-400 leading-relaxed font-sans">
+                URLs/domains listed here remain completely untouched.
               </p>
 
               {/* Textarea */}
               <textarea
                 value={notMaskInput}
                 onChange={e => handleNotMaskInputChange(e.target.value)}
-                rows={5}
-                placeholder="fonts.googleapis.com&#10;https://www.w3.org&#10;schema.org"
-                className="w-full bg-stone-50 dark:bg-stone-950 border border-stone-300 dark:border-stone-700 rounded-xl p-2.5 text-xs font-mono resize-y text-stone-900 dark:text-stone-100 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400"
+                rows={6}
+                placeholder="fonts.googleapis.com&#10;https://www.w3.org"
+                className="flex-1 min-h-[140px] natgeo-textarea text-xs font-mono"
               />
 
               {/* Quick Presets */}
-              <div className="space-y-1.5">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">
+              <div className="space-y-2">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-stone-500">
                   Quick Presets
                 </span>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-2">
                   {PRESET_CHIPS.map(preset => {
                     const isAdded = notMaskRules.includes(preset.domain);
                     return (
@@ -983,10 +966,10 @@ export default function Home() {
                         onClick={() => handleAddPresetRule(preset.domain)}
                         disabled={isAdded}
                         className={cn(
-                          "px-2 py-0.5 rounded-md text-[11px] font-medium transition-colors flex items-center gap-1",
+                          "px-2.5 py-1 rounded-md text-[11px] font-bold transition-colors flex items-center gap-1 border",
                           isAdded
-                            ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60 cursor-default"
-                            : "bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-700"
+                            ? "bg-emerald-950/40 text-emerald-400 border-emerald-900/60 cursor-default"
+                            : "bg-[#111] hover:bg-[#1a1a1a] text-stone-300 border-[#333] hover:border-[#444]"
                         )}
                       >
                         {isAdded ? <Check className="w-3 h-3" /> : <Plus className="w-3 h-3 text-stone-400" />}
@@ -997,89 +980,73 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Buttons: Save as TXT / Load from TXT / Reload from Disk / Reset */}
-              <div className="grid grid-cols-4 gap-1.5 pt-1 border-t border-stone-100 dark:border-stone-800">
+              {/* Action Buttons */}
+              <div className="grid grid-cols-4 gap-2 pt-3 border-t border-[#222]">
                 <button
                   type="button"
                   onClick={handleDownloadNotMaskFile}
-                  className="flex items-center justify-center gap-1 py-1.5 px-1 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 rounded-lg text-[11px] font-semibold transition-colors"
-                  title="Save whitelist as not_mask_urls.txt"
+                  className="flex flex-col items-center justify-center gap-1 py-2 px-1 bg-[#111] hover:bg-[#1a1a1a] text-stone-300 rounded-lg text-[10px] font-bold transition-colors border border-[#222] hover:border-[#444]"
+                  title="Save as TXT"
                 >
-                  <FileDown className="w-3.5 h-3.5 text-stone-500 flex-shrink-0" />
-                  Save
+                  <FileDown className="w-4 h-4 text-stone-400" /> Save
                 </button>
 
                 <button
                   type="button"
                   onClick={() => notMaskFileInputRef.current?.click()}
-                  className="flex items-center justify-center gap-1 py-1.5 px-1 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-700 dark:text-stone-200 rounded-lg text-[11px] font-semibold transition-colors"
-                  title="Load whitelist from a text file"
+                  className="flex flex-col items-center justify-center gap-1 py-2 px-1 bg-[#111] hover:bg-[#1a1a1a] text-stone-300 rounded-lg text-[10px] font-bold transition-colors border border-[#222] hover:border-[#444]"
+                  title="Load from TXT"
                 >
-                  <FileUp className="w-3.5 h-3.5 text-stone-500 flex-shrink-0" />
-                  Load
+                  <FileUp className="w-4 h-4 text-stone-400" /> Load
                 </button>
-                <input
-                  type="file"
-                  accept=".txt,.json"
-                  ref={notMaskFileInputRef}
-                  onChange={handleImportNotMaskFile}
-                  className="hidden"
-                />
+                <input type="file" accept=".txt,.json" ref={notMaskFileInputRef} onChange={handleImportNotMaskFile} className="hidden" />
 
                 <button
                   type="button"
                   onClick={() => reloadNotMaskFromDisk(false)}
-                  className="flex items-center justify-center gap-1 py-1.5 px-1 bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/50 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 rounded-lg text-[11px] font-semibold transition-colors border border-emerald-200/60 dark:border-emerald-800/40"
-                  title="Reload whitelist directly from not_mask_urls.txt"
+                  className="flex flex-col items-center justify-center gap-1 py-2 px-1 bg-emerald-950/30 hover:bg-emerald-900/50 text-emerald-400 rounded-lg text-[10px] font-bold transition-colors border border-emerald-900/50"
+                  title="Reload from Disk"
                 >
-                  <RefreshCw className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
-                  Reload
+                  <RefreshCw className="w-4 h-4" /> Reload
                 </button>
 
                 <button
                   type="button"
                   onClick={handleResetDefaultRules}
-                  className="flex items-center justify-center gap-1 py-1.5 px-1 bg-stone-100 hover:bg-stone-200 dark:bg-stone-800 dark:hover:bg-stone-700 text-stone-600 dark:text-stone-400 rounded-lg text-[11px] font-semibold transition-colors"
-                  title="Reset to default standard presets"
+                  className="flex flex-col items-center justify-center gap-1 py-2 px-1 bg-[#111] hover:bg-[#1a1a1a] text-stone-400 hover:text-stone-200 rounded-lg text-[10px] font-bold transition-colors border border-[#222] hover:border-[#444]"
+                  title="Reset Presets"
                 >
-                  <RotateCcw className="w-3.5 h-3.5 text-stone-400 flex-shrink-0" />
-                  Reset
+                  <RotateCcw className="w-4 h-4 text-stone-500" /> Reset
                 </button>
               </div>
-
             </div>
 
           </aside>
 
           {/* ====================================================== */}
-          {/* RIGHT AREA: 2x2 KACHELN                                */}
-          {/* Row 1: Input Text | Output                             */}
-          {/* Row 2: Upload Files                                    */}
-          {/* Row 3: Replacement Logs (full width)                   */}
+          {/* RIGHT AREA: Input, Output, Upload (Span 8 or 9)        */}
           {/* ====================================================== */}
-          <main className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-4 min-w-0">
+          <main className="lg:col-span-8 xl:col-span-9 grid grid-cols-1 xl:grid-cols-2 gap-6 w-full">
             
-            {/* ---------------------------------------------------- */}
-            {/* KACHEL 1 (Top-Left): Input Text                      */}
-            {/* ---------------------------------------------------- */}
-            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-4 shadow-sm flex flex-col min-h-[340px]">
-              <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-2.5 mb-2.5">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-                    <FileText className="w-4 h-4" />
+            {/* Input Text */}
+            <div className="natgeo-card natgeo-card-hover p-5 sm:p-6 flex flex-col xl:col-span-1 min-h-[420px]">
+              <div className="flex items-center justify-between border-b border-[#222] pb-4 mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-[#1a1a1a] text-natgeo">
+                    <FileText className="w-5 h-5" />
                   </div>
-                  <h2 className="text-sm font-bold text-stone-900 dark:text-white">
-                    Input Text
-                  </h2>
+                  <div>
+                    <span className="natgeo-kicker">Source</span>
+                    <h2 className="natgeo-title">Input Text</h2>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-2">
                   <button 
                     onClick={handlePasteInputText}
                     type="button"
-                    className="text-xs font-semibold text-stone-600 dark:text-stone-300 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-1 px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-stone-800 transition-colors"
-                    title="Paste from clipboard"
+                    className="text-xs font-bold text-stone-300 hover:text-white flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1a1a1a] border border-[#333] hover:border-[#444] transition-colors"
                   >
-                    <ClipboardPaste className="w-3.5 h-3.5" /> Paste
+                    <ClipboardPaste className="w-4 h-4 text-natgeo" /> Paste
                   </button>
                   {inputText && (
                     <button 
@@ -1088,89 +1055,107 @@ export default function Home() {
                         setProcessedText('');
                       }} 
                       type="button"
-                      className="text-xs font-semibold text-stone-600 dark:text-stone-300 hover:text-red-600 dark:hover:text-red-400 flex items-center gap-1 px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-stone-800 transition-colors"
+                      className="text-xs font-bold text-stone-400 hover:text-red-400 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1a1a1a] border border-[#333] hover:border-red-900/50 transition-colors"
                     >
-                      <X className="w-3.5 h-3.5" /> Clear
+                      <X className="w-4 h-4" /> Clear
                     </button>
                   )}
                 </div>
               </div>
 
               <textarea
-                className="flex-1 w-full min-h-[240px] p-3 bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 rounded-xl font-mono text-xs leading-relaxed resize-none text-stone-900 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="Paste or type text containing domains here... (e.g. Visit https://mysite.com or contact info@company.de)"
+                className="flex-1 w-full min-h-[280px] natgeo-textarea"
+                placeholder="Paste or type text containing domains here...&#10;(e.g. Visit https://mysite.com or contact info@company.de)"
                 value={inputText}
                 onChange={handleInputTextChange}
+                onFocus={(e) => {
+                  const overlay = document.getElementById('focus-overlay');
+                  if(overlay) overlay.classList.remove('hidden');
+                  e.target.classList.add('relative', 'z-50');
+                }}
+                onBlur={(e) => {
+                  const overlay = document.getElementById('focus-overlay');
+                  if(overlay) overlay.classList.add('hidden');
+                  e.target.classList.remove('relative', 'z-50');
+                }}
               />
               
-              <div className="mt-2 flex items-center justify-between text-[11px] text-stone-400 dark:text-stone-500">
-                <span>{inputText.length} characters</span>
+              <div className="mt-4 flex items-center justify-between text-[11px] font-bold text-stone-500 uppercase tracking-widest">
+                <span>{inputText.length} chars</span>
                 <span>{inputText ? inputText.split(/\s+/).filter(Boolean).length : 0} words</span>
               </div>
             </div>
 
-            {/* ---------------------------------------------------- */}
-            {/* KACHEL 2 (Top-Right): Output                         */}
-            {/* ---------------------------------------------------- */}
-            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-4 shadow-sm flex flex-col min-h-[340px]">
-              <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-2.5 mb-2.5">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-                    <CheckCircle2 className="w-4 h-4" />
+            {/* Output */}
+            <div className="natgeo-card natgeo-card-hover p-5 sm:p-6 flex flex-col xl:col-span-1 min-h-[420px]">
+              <div className="flex items-center justify-between border-b border-[#222] pb-4 mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-[#1a1a1a] text-natgeo">
+                    <CheckCircle2 className="w-5 h-5" />
                   </div>
-                  <h2 className="text-sm font-bold text-stone-900 dark:text-white">
-                    Output
-                  </h2>
+                  <div>
+                    <span className="natgeo-kicker">Result</span>
+                    <h2 className="natgeo-title">Output Text</h2>
+                  </div>
                 </div>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-2">
                   {processedText && (
                     <button 
                       onClick={copyOutput} 
                       type="button"
-                      className="text-xs font-semibold text-stone-700 dark:text-stone-200 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center gap-1 px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-stone-800 transition-colors"
+                      className="text-xs font-bold text-stone-300 hover:text-white flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1a1a1a] border border-[#333] hover:border-[#444] transition-colors"
                     >
-                      <Copy className="w-3.5 h-3.5" /> Copy
+                      <Copy className="w-4 h-4 text-natgeo" /> Copy
                     </button>
                   )}
                   {hasOutput && (
                     <button 
                       onClick={downloadOutput} 
                       type="button"
-                      className="text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 flex items-center gap-1 px-2.5 py-1 rounded-lg transition-colors shadow-sm"
+                      className="text-xs font-bold text-black bg-natgeo hover:bg-[#e6b800] flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors shadow-md"
                     >
-                      <Download className="w-3.5 h-3.5" /> Download
+                      <Download className="w-4 h-4" /> Download
                     </button>
                   )}
                 </div>
               </div>
 
               <textarea
-                className="flex-1 w-full min-h-[240px] p-3 bg-stone-50/80 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 rounded-xl font-mono text-xs leading-relaxed resize-none text-stone-800 dark:text-stone-200 placeholder-stone-400 dark:placeholder-stone-600 focus:outline-none"
+                className="flex-1 w-full min-h-[280px] natgeo-textarea border-dashed border-[#444] bg-[#050505] focus:border-dashed"
                 readOnly
-                placeholder="Processed (masked or restored) text will appear here after clicking Start Process..."
+                placeholder="Processed (masked or restored) text will appear here..."
                 value={processedText}
+                onFocus={(e) => {
+                  const overlay = document.getElementById('focus-overlay');
+                  if(overlay) overlay.classList.remove('hidden');
+                  e.target.classList.add('relative', 'z-50');
+                }}
+                onBlur={(e) => {
+                  const overlay = document.getElementById('focus-overlay');
+                  if(overlay) overlay.classList.add('hidden');
+                  e.target.classList.remove('relative', 'z-50');
+                }}
               />
 
-              <div className="mt-2 flex items-center justify-between text-[11px] text-stone-400 dark:text-stone-500">
-                <span>{processedText.length} characters</span>
-                {processedText && <span className="text-emerald-500 font-medium">Ready</span>}
+              <div className="mt-4 flex items-center justify-between text-[11px] font-bold uppercase tracking-widest text-stone-500">
+                <span>{processedText.length} chars</span>
+                {processedText && <span className="text-natgeo">Ready</span>}
               </div>
             </div>
 
-            {/* ---------------------------------------------------- */}
-            {/* KACHEL 3 (Bottom-Left): Upload Files                 */}
-            {/* ---------------------------------------------------- */}
-            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-4 shadow-sm flex flex-col min-h-[340px]">
-              <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-2.5 mb-2.5">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-                    <FileCode className="w-4 h-4" />
+            {/* Upload Files */}
+            <div className="natgeo-card natgeo-card-hover p-5 sm:p-6 flex flex-col xl:col-span-2">
+              <div className="flex items-center justify-between border-b border-[#222] pb-4 mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-[#1a1a1a] text-natgeo">
+                    <FileCode className="w-5 h-5" />
                   </div>
-                  <h2 className="text-sm font-bold text-stone-900 dark:text-white">
-                    Upload Files
-                  </h2>
+                  <div>
+                    <span className="natgeo-kicker">Batch Processing</span>
+                    <h2 className="natgeo-title">Upload Files</h2>
+                  </div>
                   {files.length > 0 && (
-                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300">
+                    <span className="ml-2 text-[11px] font-bold px-2.5 py-1 rounded-md bg-[#1a1a1a] text-natgeo border border-[#333]">
                       {files.length}
                     </span>
                   )}
@@ -1179,183 +1164,190 @@ export default function Home() {
                   <button 
                     onClick={() => setFiles([])} 
                     type="button"
-                    className="text-xs font-semibold text-stone-600 dark:text-stone-300 hover:text-red-600 dark:hover:text-red-400 flex items-center gap-1 px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-stone-800 transition-colors"
+                    className="text-xs font-bold text-stone-400 hover:text-red-400 flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1a1a1a] border border-[#333] hover:border-red-900/50 transition-colors"
                   >
-                    <Trash2 className="w-3.5 h-3.5" /> Clear All
+                    <Trash2 className="w-4 h-4" /> Clear All
                   </button>
                 )}
               </div>
 
-              {/* Upload Drop Area */}
-              <div 
-                className="border-2 border-dashed border-stone-300 dark:border-stone-700 rounded-xl p-5 text-center bg-stone-50/50 dark:bg-stone-950/50 hover:bg-stone-100 dark:hover:bg-stone-800/60 transition-colors cursor-pointer"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <Upload className="w-6 h-6 text-stone-400 dark:text-stone-500 mx-auto mb-2" />
-                <p className="text-xs font-semibold text-stone-700 dark:text-stone-300">
-                  Click or drag files here
-                </p>
-                <p className="text-[11px] text-stone-400 dark:text-stone-500 mt-0.5">
-                  .txt, .json, .csv, .html, .js, .md, .xml or .zip archives
-                </p>
-                <input type="file" multiple className="hidden" ref={fileInputRef} onChange={handleFileUpload} />
-              </div>
-
-              {/* Files List */}
-              <div className="flex-1 mt-3 overflow-y-auto max-h-[160px] space-y-1.5 pr-1">
-                {files.length === 0 ? (
-                  <div className="h-full flex items-center justify-center text-center p-4">
-                    <p className="text-xs text-stone-400 dark:text-stone-600">No files uploaded yet.</p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Upload Drop Area */}
+                <div 
+                  className="md:col-span-1 border-2 border-dashed border-[#444] rounded-xl p-8 text-center bg-[#0a0a0a] hover:bg-[#111] hover:border-natgeo transition-all cursor-pointer flex flex-col items-center justify-center min-h-[160px] group"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <div className="p-3 bg-[#1a1a1a] rounded-full group-hover:bg-natgeo group-hover:text-black transition-colors mb-3">
+                    <Upload className="w-6 h-6 text-stone-400 group-hover:text-black" />
                   </div>
-                ) : (
-                  files.map((file, idx) => (
-                    <div 
-                      key={idx} 
-                      className="flex items-center justify-between p-2.5 bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 rounded-xl text-xs"
-                    >
-                      <div className="flex items-center gap-2 truncate pr-2">
-                        <FileCode className="w-3.5 h-3.5 text-stone-400 flex-shrink-0" />
-                        <span className="font-mono text-stone-700 dark:text-stone-300 truncate" title={file.name}>
-                          {file.name}
-                        </span>
-                        {file.processedText && (
-                          <span className="text-[10px] px-1.5 py-0.5 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 rounded font-sans font-medium flex-shrink-0">
-                            Processed
-                          </span>
-                        )}
-                      </div>
-                      <button 
-                        onClick={() => removeFile(idx)} 
-                        className="p-1 text-stone-400 hover:text-red-500 rounded transition-colors"
-                        title="Remove file"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
+                  <p className="text-sm font-bold text-stone-300 group-hover:text-white">
+                    Click or drag files
+                  </p>
+                  <p className="text-[11px] text-stone-500 font-mono mt-2">
+                    .txt, .json, .csv, .html, .js, .zip
+                  </p>
+                  <input type="file" multiple className="hidden" ref={fileInputRef} onChange={handleFileUpload} />
+                </div>
+
+                {/* Files List */}
+                <div className="md:col-span-2 overflow-y-auto max-h-[220px] space-y-2 pr-2 custom-scrollbar border border-[#222] bg-[#0a0a0a] rounded-xl p-3">
+                  {files.length === 0 ? (
+                    <div className="h-full flex items-center justify-center text-center p-6">
+                      <p className="text-sm text-stone-500 font-bold tracking-wide">No files uploaded.</p>
                     </div>
-                  ))
-                )}
+                  ) : (
+                    files.map((file, idx) => (
+                      <div 
+                        key={idx} 
+                        className="flex items-center justify-between p-3.5 bg-[#111] border border-[#222] rounded-lg text-sm transition-colors hover:bg-[#1a1a1a]"
+                      >
+                        <div className="flex items-center gap-3 truncate pr-4">
+                          <FileCode className="w-4 h-4 text-stone-400 flex-shrink-0" />
+                          <span className="font-mono text-stone-200 font-medium truncate" title={file.name}>
+                            {file.name}
+                          </span>
+                          {file.processedText && (
+                            <span className="text-[10px] px-2 py-0.5 bg-emerald-950/60 text-emerald-400 border border-emerald-900/60 rounded font-sans font-bold uppercase tracking-wider flex-shrink-0">
+                              Processed
+                            </span>
+                          )}
+                        </div>
+                        <button 
+                          onClick={() => removeFile(idx)} 
+                          className="p-1.5 text-stone-500 hover:text-red-500 rounded bg-[#1a1a1a] hover:bg-[#222] transition-colors"
+                          title="Remove file"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))
+                  )}
+                </div>
               </div>
             </div>
 
           </main>
-
         </div>
 
         {/* ====================================================== */}
-        {/* FULL WIDTH: Replacement Logs (ganz unten, volle Breite) */}
+        {/* FULL WIDTH BOTTOM: Replacement Logs                    */}
         {/* ====================================================== */}
-        <div className="w-full bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-2xl p-4 shadow-sm flex flex-col min-h-[400px]">
-            <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-2.5 mb-2.5">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-                  <AlertCircle className="w-4 h-4" />
-                </div>
-                <h2 className="text-sm font-bold text-stone-900 dark:text-white">
-                  Replacement Logs
-                </h2>
-                {globalLogs.length > 0 && (
-                  <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300">
-                    {filteredLogs.length}
-                  </span>
-                )}
+        <div className="natgeo-card w-full flex flex-col p-5 sm:p-6 lg:p-8 mt-2 min-h-[400px]">
+          <div className="flex items-center justify-between border-b border-[#222] pb-4 mb-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-[#1a1a1a] text-natgeo">
+                <AlertCircle className="w-5 h-5" />
               </div>
-
+              <div>
+                <span className="natgeo-kicker">Activity</span>
+                <h2 className="natgeo-title">Replacement Logs</h2>
+              </div>
               {globalLogs.length > 0 && (
-                <div className="flex items-center gap-1.5">
-                  <div className="flex items-center gap-1 bg-stone-100 dark:bg-stone-950 px-2 py-1 rounded-lg border border-stone-200 dark:border-stone-800">
-                    <Search className="w-3.5 h-3.5 text-stone-400" />
-                    <input 
-                      type="text" 
-                      placeholder="Search logs..." 
-                      value={logFilter}
-                      onChange={e => setLogFilter(e.target.value)}
-                      className="bg-transparent border-none text-xs w-24 sm:w-32 focus:outline-none text-stone-900 dark:text-white placeholder-stone-400"
-                    />
-                  </div>
-                  <button 
-                    onClick={() => setGlobalLogs([])} 
-                    type="button"
-                    className="text-stone-400 hover:text-red-500 p-1 rounded"
-                    title="Clear logs"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+                <span className="ml-2 text-[11px] font-bold px-2.5 py-1 rounded-md bg-[#1a1a1a] text-natgeo border border-[#333]">
+                  {filteredLogs.length}
+                </span>
               )}
             </div>
 
-            {/* Logs Table */}
-            <div className="flex-1 overflow-y-auto rounded-xl border border-stone-200 dark:border-stone-800 bg-stone-50/50 dark:bg-stone-950">
-              {globalLogs.length === 0 ? (
-                <div className="h-full flex items-center justify-center p-6 text-center">
-                  <p className="text-xs text-stone-400 dark:text-stone-600">No replacements logged yet.</p>
+            {globalLogs.length > 0 && (
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 bg-[#0a0a0a] px-3 py-2 rounded-lg border border-[#333]">
+                  <Search className="w-4 h-4 text-stone-500" />
+                  <input 
+                    type="text" 
+                    placeholder="Search logs..." 
+                    value={logFilter}
+                    onChange={e => setLogFilter(e.target.value)}
+                    className="bg-transparent border-none text-sm w-32 sm:w-48 focus:outline-none text-white placeholder-stone-600 font-mono"
+                  />
                 </div>
-              ) : filteredLogs.length === 0 ? (
-                <div className="h-full flex items-center justify-center p-6 text-center">
-                  <p className="text-xs text-stone-400 dark:text-stone-600">No logs match filter &quot;{logFilter}&quot;.</p>
-                </div>
-              ) : (
-                <table className="w-full text-left text-xs table-fixed">
-                  <thead className="bg-stone-100 dark:bg-stone-900/90 sticky top-0 border-b border-stone-200 dark:border-stone-800 font-semibold text-stone-600 dark:text-stone-400">
-                    <tr>
-                      <th className="px-3 py-2 w-4/12">Original Domain</th>
-                      <th className="px-3 py-2 w-4/12">Masked Target</th>
-                      <th className="px-3 py-2 w-3/12">Source</th>
-                      <th className="px-3 py-2 w-1/12 text-right">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-stone-200/50 dark:divide-stone-800/60 font-mono">
-                    {filteredLogs.map((log, i) => (
-                      <tr key={i} className="hover:bg-stone-100/60 dark:hover:bg-stone-900/50 transition-colors">
-                        <td className="px-3 py-2 text-stone-700 dark:text-stone-300 truncate" title={log.original}>
-                          {log.original}
-                        </td>
-                        <td className="px-3 py-2 text-indigo-600 dark:text-indigo-400 font-semibold truncate" title={log.masked}>
-                          {log.masked}
-                        </td>
-                        <td className="px-3 py-2 text-stone-400 dark:text-stone-500 truncate" title={log.file}>
-                          {log.file}
-                        </td>
-                        <td className="px-3 py-2 text-right">
-                          <button
-                            onClick={() => {
-                              handleAddPresetRule(log.original);
-                            }}
-                            className="text-stone-400 hover:text-emerald-500 p-1 rounded transition-colors"
-                            title="Add to NOT MASK"
-                          >
-                            <ShieldCheck className="w-3.5 h-3.5" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-            </div>
+                <button 
+                  onClick={() => setGlobalLogs([])} 
+                  type="button"
+                  className="text-stone-400 hover:text-red-400 p-2.5 rounded-lg bg-[#1a1a1a] hover:bg-red-950/40 border border-[#333] hover:border-red-900/50 transition-colors"
+                  title="Clear logs"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            )}
           </div>
 
+          {/* Logs Table */}
+          <div className="flex-1 overflow-y-auto rounded-xl border border-[#222] bg-[#0a0a0a]">
+            {globalLogs.length === 0 ? (
+              <div className="h-full flex items-center justify-center p-12 text-center">
+                <p className="text-sm font-bold text-stone-600 uppercase tracking-widest">No replacements logged yet.</p>
+              </div>
+            ) : filteredLogs.length === 0 ? (
+              <div className="h-full flex items-center justify-center p-12 text-center">
+                <p className="text-sm font-bold text-stone-600 uppercase tracking-widest">No logs match filter &quot;{logFilter}&quot;.</p>
+              </div>
+            ) : (
+              <table className="w-full text-left text-sm table-fixed">
+                <thead className="bg-[#111] sticky top-0 border-b border-[#222] font-bold text-stone-400 uppercase tracking-wider text-xs">
+                  <tr>
+                    <th className="px-5 py-4 w-4/12">Original Domain</th>
+                    <th className="px-5 py-4 w-4/12">Masked Target</th>
+                    <th className="px-5 py-4 w-3/12">Source</th>
+                    <th className="px-5 py-4 w-1/12 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#222] font-mono text-xs">
+                  {filteredLogs.map((log, i) => (
+                    <tr key={i} className="hover:bg-[#1a1a1a] transition-colors group">
+                      <td className="px-5 py-3.5 text-stone-300 truncate" title={log.original}>
+                        {log.original}
+                      </td>
+                      <td className="px-5 py-3.5 text-natgeo font-bold truncate" title={log.masked}>
+                        {log.masked}
+                      </td>
+                      <td className="px-5 py-3.5 text-stone-500 truncate" title={log.file}>
+                        {log.file}
+                      </td>
+                      <td className="px-5 py-3.5 text-right">
+                        <button
+                          onClick={() => {
+                            handleAddPresetRule(log.original);
+                          }}
+                          className="text-stone-500 hover:text-emerald-400 p-2 rounded-lg bg-[#111] group-hover:bg-[#222] transition-colors border border-transparent hover:border-[#444]"
+                          title="Add to NOT MASK"
+                        >
+                          <ShieldCheck className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
+
+      </div>
 
       {/* ========================================================== */}
       {/* STICKY BOTTOM BAR: Start Process & Status Summary          */}
       {/* ========================================================== */}
-      <footer className="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-stone-950/95 backdrop-blur-md border-t border-stone-200 dark:border-stone-800 py-3 px-4 sm:px-6 z-40 shadow-lg">
-        <div className="max-w-[1720px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <footer className="fixed bottom-0 left-0 right-0 bg-black/80 backdrop-blur-xl border-t border-[#333] py-4 px-5 sm:px-8 z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+        <div className="w-full mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <div className={cn(
-              "w-2.5 h-2.5 rounded-full animate-pulse",
-              identifier ? "bg-emerald-500" : "bg-amber-500"
+              "w-3 h-3 rounded-full animate-pulse shadow-[0_0_10px_currentColor]",
+              identifier ? "bg-emerald-400 text-emerald-400" : "bg-natgeo text-natgeo"
             )} />
             <div>
-              <p className="text-xs font-semibold text-stone-800 dark:text-stone-200">
-                Ready to {isReverse ? 'Reverse (Unmask)' : 'Process (Mask)'}
+              <p className="text-sm font-bold text-white tracking-wide">
+                Ready to {isReverse ? 'REVERSE (Unmask)' : 'PROCESS (Mask)'}
               </p>
-              <p className="text-[11px] text-stone-500 dark:text-stone-400">
+              <p className="text-xs font-mono text-stone-400 mt-0.5">
                 {files.length} file(s){inputText ? ' + text input' : ''} 
                 {!isReverse ? ` • Target: ${targetPattern || 'local*.com'}` : ''}
                 {notMaskRules.length > 0 ? ` • ${notMaskRules.length} whitelist rules` : ''}
-                {identifier ? ` • ID: ${identifier}` : ' • No Identifier'}
+                <span className={identifier ? "text-emerald-400 font-bold" : "text-natgeo"}>
+                  {identifier ? ` • ID: ${identifier}` : ' • No Identifier'}
+                </span>
               </p>
             </div>
           </div>
@@ -1363,16 +1355,17 @@ export default function Home() {
           <button
             type="button"
             onClick={processInput}
-            className="w-full sm:w-auto px-8 py-3 bg-stone-900 hover:bg-stone-800 text-white dark:bg-indigo-600 dark:hover:bg-indigo-500 text-sm rounded-xl font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2.5 active:scale-98"
+            className="w-full sm:w-auto px-10 py-4 natgeo-button text-sm"
           >
             <CheckCircle2 className="w-5 h-5" />
-            <span>START {isReverse ? 'REVERSE (UNMASK)' : 'PROCESS (MASK)'}</span>
+            <span>START {isReverse ? 'REVERSE' : 'PROCESS'}</span>
           </button>
-
         </div>
       </footer>
 
-    </div>
+      {/* Hidden Focus Overlay Backdrop */}
+      <div id="focus-overlay" className="focus-overlay hidden"></div>
+
     </div>
   );
 }
