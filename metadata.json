@@ -1,0 +1,6 @@
+{
+  "name": "Domain Masker",
+  "description": "Client-side tool to pseudonymize and restore domains in texts and files with custom target masks and NOT MASK URL whitelisting.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
