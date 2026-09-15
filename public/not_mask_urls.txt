@@ -1,21 +1,46 @@
-# Domain Masker - NOT MASK URL Whitelist
+# Domain Masker V 1.15 - NOT MASK URL Whitelist
 # URLs and domains listed here are NOT masked.
 # One domain or URL per line.
-# All 3 formats are supported:
+# All 4 formats are supported:
 #   1. Full URLs:   https://fonts.googleapis.com
 #   2. WWW URLs:    www.w3.org
 #   3. Plain:       schema.org
+#   4. *.id, *.top, etc. will match any string ending with .id, .top, etc.
 # Subdomains are automatically protected.
-# Wildcards are supported: *.id, *.top, etc. will match any string ending with .id, .top, etc.
+# Wildcards are supported: 
 
+example.com
 fonts.googleapis.com
 google-analytics.com
+readthedocs.io
+opencollective.com
+npmjs.com
+eslint.org
+polar.sh
+globalsign.com
+openxmlformats.org
+schemas.openxmlformats.org
 fonts.gstatic.com
+accounts.google.com
+connect.facebook.net
 w3.org
 schema.org
+redux-toolkit.js.org
+redux.js.org
 github.com
+captcha-delivery.com
 cdnjs.cloudflare.com
 cdnjs.cloudflare.com
+bolt.new
+git.io
+twitter.com
+stackoverflow.com
+ik.imagekit.io
+2Fbolt.new
+reactjs.org
+ezgif.com
+registry.npmjs.org
+nextjs.org
 cdnjs.com
 cdn.jsdelivr.net
 data.jsdelivr.com
@@ -32,6 +57,7 @@ cloudfront.net
 bunny.net
 cloud.google.com
 bootcss.com
+ASPN.net
 bing.com
 staticfile.org
 upai.com
@@ -44,6 +70,7 @@ prototypejs.org
 us20.campaign-archive.com
 http://www.gnu.org
 w3.org
+csp.withgoogle.com
 schema.org
 ogp.me
 microformats.org
@@ -98,6 +125,7 @@ remixicon.com
 iconify.design
 Ajax.Request.Events
 attributeTranslations.read
+me.SHOP
 *.id
 *.top
 *.to
@@ -328,8 +356,16 @@ attributeTranslations.read
 *.ec
 *.ve
 *.free
-*.name
+*.Name
+*.safe
 *.safety
+*.page
+*.Show
+*.Wedding
+*.Gift
+*.Country
+*.fail
+*.social
 *.na
 *.ga
 *.sa
@@ -674,6 +710,8 @@ attributeTranslations.read
 *.free
 *.name
 *.safety
+*.new
+*.dev
 *.na
 *.ga
 *.sa
@@ -695,3 +733,23 @@ attributeTranslations.read
 *.blue
 *.click
 *.properties
+*.next
+*.CHANNEL
+*.Open
+*.open
+*.total
+*.photos
+*.CENTER
+*.by
+*.1v
+*.apple
+*.search
+*.Tab
+*.Android
+*.deals
+*.mobile
+*.host
+*.call
+*.international
+*globalsign.com
+*.oasis-open.org

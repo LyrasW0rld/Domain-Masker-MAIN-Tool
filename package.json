@@ -58,12 +58,11 @@
     "icon": "logo.png",
     "files": [
       "out/**/*",
-      "main.js",
-      "not_mask_urls.txt"
+      "main.js"
     ],
     "extraResources": [
       {
-        "from": "not_mask_urls.txt",
+        "from": "public/not_mask_urls.txt",
         "to": "not_mask_urls.txt"
       }
     ],

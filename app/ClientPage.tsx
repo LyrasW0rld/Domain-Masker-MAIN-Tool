@@ -58,6 +58,7 @@ function loadClientNotMask(): { rules: string[]; input: string } | null {
       const realProcess = electronWindow.require('process');
       const possiblePaths = [
         'not_mask_urls.txt',
+        pathModule.join(realProcess.cwd(), 'public', 'not_mask_urls.txt'),
         pathModule.join(realProcess.cwd(), 'not_mask_urls.txt'),
         realProcess.resourcesPath ? pathModule.join(realProcess.resourcesPath, 'not_mask_urls.txt') : '',
         pathModule.join(realProcess.cwd(), 'resources', 'not_mask_urls.txt')
@@ -207,7 +208,7 @@ export default function Home() {
         if (realProcess.resourcesPath) {
           savePath = pathModule.join(realProcess.resourcesPath, 'not_mask_urls.txt');
         } else if (realProcess.cwd) {
-          savePath = pathModule.join(realProcess.cwd(), 'not_mask_urls.txt');
+          savePath = pathModule.join(realProcess.cwd(), 'public', 'not_mask_urls.txt');
         }
         
         fs.writeFileSync(savePath, text, 'utf-8');
